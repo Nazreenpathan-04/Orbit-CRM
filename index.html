@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbit CRM — Organization-Level CRM</title>
+<style>
+:root {
+  --site-primary: #2457D6;
+  --site-on-primary: #FFFFFF;
+  --site-secondary: #EAF0FF;
+  --site-on-secondary: #142B62;
+  --site-background: #F7F8FC;
+  --site-on-background: #172033;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; border-radius: 0; background-color: var(--site-background); color: var(--site-on-background); overflow: hidden; }
+.site-header { max-width: 1180px; margin: 0 auto; padding: calc(22px * var(--site-spacing-scale)) 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.brand { display:flex; align-items:center; gap:11px; font-weight:800; letter-spacing:-.04em; font-size:22px; }
+.brand-mark { width:36px; height:36px; border-radius:12px; display:grid; place-items:center; color:var(--site-on-primary); background:var(--site-primary); font-weight:900; }
+nav { display:flex; gap:28px; align-items:center; }
+nav a { color:inherit; text-decoration:none; font-size:14px; font-weight:650; opacity:.78; }
+nav a:hover { opacity:1; }
+.button { display:inline-flex; align-items:center; justify-content:center; text-decoration:none; border-radius:calc(12px * var(--site-radius-scale)); padding:13px 19px; font-weight:750; font-size:14px; border:1px solid transparent; cursor:pointer; }
+.button.primary { background:var(--site-primary); color:var(--site-on-primary); }
+.button.secondary { background:transparent; color:var(--site-on-background); border-color:color-mix(in srgb, var(--site-on-background) 18%, transparent); }
+.hero { max-width:1180px; margin:0 auto; padding:74px 28px 84px; display:grid; grid-template-columns:1.08fr .92fr; align-items:center; gap:56px; }
+.eyebrow { display:inline-flex; gap:8px; align-items:center; color:var(--site-primary); font-size:12px; font-weight:850; letter-spacing:.13em; text-transform:uppercase; }
+.eyebrow:before { content:""; width:22px; height:2px; background:currentColor; }
+h1,h2,h3 { font-family:var(--site-font-heading); letter-spacing:-.045em; }
+h1 { font-size:clamp(42px, 5.5vw, 68px); line-height:1.03; margin:20px 0; max-width:680px; }
+h1 span { color:var(--site-primary); }
+.hero-copy { color:color-mix(in srgb, var(--site-on-background) 70%, transparent); font-size:18px; line-height:1.75; max-width:590px; }
+.hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+.note { font-size:12px; opacity:.65; margin-top:18px; }
+.mockup-wrap { position:relative; }
+.glow { position:absolute; inset:8% -7% -7% 8%; background:var(--site-primary); opacity:calc(.12 * var(--site-decoration-opacity)); filter:blur(55px); border-radius:50%; }
+.dashboard { position:relative; background:light-dark(#FFFFFF,#171E2D); border:1px solid light-dark(#E3E8F2,#30394B); border-radius:calc(22px * var(--site-radius-scale)); box-shadow:0 28px 70px rgba(20,35,70,.16); padding:20px; transform:rotate(1.5deg); }
+.dash-top { display:flex; align-items:center; justify-content:space-between; padding-bottom:17px; border-bottom:1px solid light-dark(#E9EDF5,#30394B); font-size:12px; font-weight:800; }
+.dots { display:flex; gap:5px; }.dots i { width:7px;height:7px;border-radius:50%;background:#CBD3E2; }
+.dash-title { font-size:18px; font-weight:800; margin:20px 0 14px; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+.stat { background:light-dark(#F5F7FC,#222B3C); border-radius:12px; padding:12px; }
+.stat small { display:block; font-size:10px; opacity:.65; }.stat strong { display:block; font-size:22px; margin-top:5px; }
+.pipeline { display:flex; gap:7px; margin:20px 0; align-items:end; height:105px; }
+.stage { flex:1; border-radius:8px 8px 3px 3px; background:var(--site-primary); opacity:.82; position:relative; }.stage:nth-child(1){height:42%}.stage:nth-child(2){height:62%;opacity:.65}.stage:nth-child(3){height:78%;opacity:.5}.stage:nth-child(4){height:92%;opacity:.36}.stage:nth-child(5){height:56%;opacity:.24}
+.stage-labels { display:flex; justify-content:space-between; font-size:9px; opacity:.58; }
+.activity { margin-top:20px; }.activity-row { display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid light-dark(#EEF1F6,#30394B); font-size:11px; }.avatar { width:25px;height:25px;border-radius:50%;background:var(--site-secondary);color:var(--site-on-secondary);display:grid;place-items:center;font-weight:800; }
+.section { padding:82px 28px; }
+.section-inner { max-width:1124px; margin:0 auto; }
+.section-head { max-width:650px; margin-bottom:38px; }
+.section h2 { font-size:clamp(30px,4vw,44px); margin:14px 0; line-height:1.1; }
+.section-head p { line-height:1.7; opacity:.72; }
+.features { background:light-dark(#FFFFFF,#111827); }
+.feature-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.feature-card { border:1px solid light-dark(#E6EAF2,#30394B); background:light-dark(#FFFFFF,#1A2333); border-radius:calc(16px * var(--site-radius-scale)); padding:25px; min-height:205px; }
+.feature-icon { width:42px;height:42px;border-radius:13px;background:var(--site-secondary);color:var(--site-on-secondary);display:grid;place-items:center;font-size:19px;font-weight:850; }
+.feature-card h3 { font-size:19px; margin:20px 0 9px; letter-spacing:-.025em; }.feature-card p { font-size:14px; line-height:1.65; opacity:.7; margin:0; }
+.workflow { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.step { border-radius:14px; background:var(--site-secondary); color:var(--site-on-secondary); padding:18px 14px; min-height:135px; }
+.step b { display:block; font-size:11px; opacity:.65; margin-bottom:16px; }.step strong { font-size:14px; line-height:1.4; display:block; }
+.mvp { background:var(--site-primary); color:var(--site-on-primary); }
+.mvp .eyebrow { color:rgba(255,255,255,.78); }.mvp .section-head p { opacity:.82; }
+.mvp-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.mvp-item { border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.09); border-radius:13px; padding:18px; font-size:14px; font-weight:700; }
+.mvp-item span { display:block; font-size:11px; font-weight:500; opacity:.7; margin-top:8px; }
+.footer { max-width:1180px; margin:0 auto; padding:34px 28px; display:flex; justify-content:space-between; gap:20px; font-size:12px; opacity:.7; }
+@media (max-width:800px) { nav { display:none; } .hero { grid-template-columns:1fr; padding-top:48px; gap:42px; } .dashboard { transform:none; } .feature-grid { grid-template-columns:repeat(2,1fr); } .workflow { grid-template-columns:repeat(2,1fr); } .mvp-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:520px) { .site-header { padding:18px; } .site-header .button { padding:10px 12px; font-size:12px; } .hero,.section { padding-left:20px; padding-right:20px; } .hero { padding-top:42px; } .hero-copy { font-size:16px; } .feature-grid { grid-template-columns:1fr; } .workflow { grid-template-columns:1fr 1fr; } .stats { gap:6px; }.stat { padding:9px; }.stat strong { font-size:18px; } .footer { padding:25px 20px; flex-direction:column; } }
+@media (prefers-color-scheme: dark) { .hero-copy { color:color-mix(in srgb, var(--site-on-background) 78%, transparent); } }
+</style>
+</head>
+<body>
+<div id="app">
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">O</span> orbit<span style="color:var(--site-primary)">CRM</span></div>
+  <nav aria-label="Main navigation"><a href="#features">Features</a><a href="#workflow">How it works</a><a href="#mvp">MVP scope</a></nav>
+  <a class="button primary" href="#features">Explore the concept</a>
+</header>
+<main>
+<section class="hero">
+  <div>
+    <div class="eyebrow">A student product concept</div>
+    <h1>Customer relationships, <span>organized.</span></h1>
+    <p class="hero-copy">Orbit CRM is a proposed organization-level customer relationship management system that brings customer records, lead ownership, sales progress, and team follow-ups into one clear workspace.</p>
+    <div class="hero-actions"><a class="button primary" href="#features">Explore features</a><a class="button secondary" href="#workflow">See the workflow</a></div>
+    <p class="note">Academic / portfolio prototype concept · Not a live CRM service</p>
+  </div>
+  <div class="mockup-wrap" aria-label="Illustrative CRM dashboard preview">
+    <div class="glow"></div>
+    <div class="dashboard">
+      <div class="dash-top"><span>ORBIT CRM / OVERVIEW</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="dash-title">Team snapshot</div>
+      <div class="stats"><div class="stat"><small>Contacts</small><strong>1,248</strong></div><div class="stat"><small>Open leads</small><strong>86</strong></div><div class="stat"><small>Won deals</small><strong>24</strong></div></div>
+      <div class="dash-title" style="font-size:14px">Pipeline overview</div>
+      <div class="pipeline"><div class="stage"></div><div class="stage"></div><div class="stage"></div><div class="stage"></div><div class="stage"></div></div>
+      <div class="stage-labels"><span>New</span><span>Contacted</span><span>Qualified</span><span>Proposal</span><span>Won</span></div>
+      <div class="activity"><div class="dash-title" style="font-size:14px">Recent activity</div><div class="activity-row"><span class="avatar">A</span><span>Alex updated a lead status</span></div><div class="activity-row"><span class="avatar">M</span><span>Maya added a follow-up task</span></div><div class="activity-row"><span class="avatar">R</span><span>Ravi imported customer records</span></div></div>
+    </div>
+  </div>
+</section>
+<section class="section features" id="features">
+  <div class="section-inner">
+    <div class="section-head"><div class="eyebrow">Core capabilities</div><h2>One workspace for the customer journey.</h2><p>The proposed first release focuses on practical tools that help a small team keep customer information accurate and sales work visible.</p></div>
+    <div class="feature-grid">
+      <article class="feature-card"><div class="feature-icon">◎</div><h3>Contact management</h3><p>Keep customer names, contact details, company information, and notes together in searchable records.</p></article>
+      <article class="feature-card"><div class="feature-icon">⇧</div><h3>Spreadsheet import</h3><p>Import customer records from CSV or Excel, validate required fields, and flag possible duplicates.</p></article>
+      <article class="feature-card"><div class="feature-icon">↗</div><h3>Lead pipeline</h3><p>Track leads through clear stages, from new enquiry to qualified opportunity and closed outcome.</p></article>
+      <article class="feature-card"><div class="feature-icon">♧</div><h3>Team assignment</h3><p>Give each lead an owner so employees know which customers they are responsible for.</p></article>
+      <article class="feature-card"><div class="feature-icon">✓</div><h3>Tasks and follow-ups</h3><p>Record calls, meetings, reminders, and next steps so important conversations do not get missed.</p></article>
+      <article class="feature-card"><div class="feature-icon">▥</div><h3>Performance dashboard</h3><p>See key counts such as total contacts, open leads, pipeline stages, and completed activities.</p></article>
+    </div>
+  </div>
+</section>
+<section class="section" id="workflow">
+  <div class="section-inner">
+    <div class="section-head"><div class="eyebrow">Simple workflow</div><h2>From new record to next action.</h2><p>A straightforward workflow keeps responsibilities clear for administrators and employees.</p></div>
+    <div class="workflow"><div class="step"><b>01 / ADMIN</b><strong>Add or import customer records</strong></div><div class="step"><b>02 / ADMIN</b><strong>Check data and assign leads</strong></div><div class="step"><b>03 / EMPLOYEE</b><strong>Contact customers and log activity</strong></div><div class="step"><b>04 / EMPLOYEE</b><strong>Update lead stage and follow-up</strong></div><div class="step"><b>05 / ADMIN</b><strong>Review progress on dashboard</strong></div></div>
+  </div>
+</section>
+<section class="section mvp" id="mvp">
+  <div class="section-inner">
+    <div class="section-head"><div class="eyebrow">First release</div><h2>A focused MVP, built in stages.</h2><p>The initial version should prove the essential customer and sales workflow before adding advanced automation or integrations.</p></div>
+    <div class="mvp-grid"><div class="mvp-item">User login and roles<span>Admin and employee access</span></div><div class="mvp-item">Customer records<span>Create, view, edit, search</span></div><div class="mvp-item">CSV / Excel import<span>Validation and error feedback</span></div><div class="mvp-item">Lead assignment<span>Assign owners to leads</span></div><div class="mvp-item">Sales pipeline<span>Track lead stages</span></div><div class="mvp-item">Tasks and activity<span>Record follow-up actions</span></div><div class="mvp-item">Basic dashboard<span>Display key CRM metrics</span></div><div class="mvp-item">Future enhancements<span>Automation and advanced reports</span></div></div>
+  </div>
+</section>
+</main>
+<footer class="footer"><span>© 2026 Orbit CRM · Student project concept</span><span>Designed as a planning and portfolio prototype</span></footer>
+</div>
+</body>
+</html>
